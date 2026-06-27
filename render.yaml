@@ -1,0 +1,16 @@
+# Render blueprint for deploying the Viking Vault Node/Express app.
+services:
+  # Defines one public web service.
+  - type: web
+    # Human-readable service name shown in the Render dashboard.
+    name: viking-vault
+    # Uses Render's Node.js runtime.
+    env: node
+    # Free plan is enough for demos/school projects; upgrade if traffic grows.
+    plan: free
+    # Installs dependencies from package.json before starting the app.
+    buildCommand: npm install
+    # Runs the existing npm start script, which executes server.js.
+    startCommand: npm start
+    # Automatically redeploys when the connected Git branch changes.
+    autoDeploy: true

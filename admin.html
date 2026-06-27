@@ -1,0 +1,335 @@
+<!-- Declares this file as an HTML5 document so browsers render it in standards mode. -->
+<!DOCTYPE html>
+<!-- Root HTML element; the lang attribute helps screen readers and browsers understand the page language. -->
+<html lang="en">
+<head>
+    <!-- UTF-8 supports standard text, symbols, and emoji used throughout the admin UI. -->
+    <meta charset="UTF-8">
+    <!-- Makes the admin panel scale correctly on phones, tablets, and desktop screens. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Browser tab title for the admin panel. -->
+    <title>Admin Panel - FoundIt</title>
+    <!-- Preconnect speeds up loading Google Fonts by opening the connection early. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Required cross-origin preconnect for Google Fonts font files. -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Loads the heading/body font families used by the shared site styles. -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Loads global shared styles used across the public website and admin panel. -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Loads admin-only layout, dashboard, table, modal, and login styles. -->
+    <link rel="stylesheet" href="admin.css">
+</head>
+<!-- admin-body gives this page admin-specific background and layout styling. -->
+<body class="admin-body">
+    <!-- Login Screen: shown first, then hidden by admin.js after successful authentication. -->
+    <div class="login-screen" id="login-screen">
+        <!-- Centered card that contains the admin login form. -->
+        <div class="login-card">
+            <!-- Branding and short explanation for the login form. -->
+            <div class="login-header">
+                <!-- Visual logo icon for the admin screen. -->
+                <span class="logo-icon">🔍</span>
+                <!-- Admin page title. -->
+                <h1>FoundIt Admin</h1>
+                <!-- Short instruction that explains why the user must sign in. -->
+                <p>Sign in to manage lost & found items</p>
+            </div>
+            <!-- Login form handled by admin.js; it posts credentials to the admin login API. -->
+            <form id="login-form">
+                <!-- Username field group. -->
+                <div class="form-group">
+                    <!-- Label is linked to the username input for accessibility. -->
+                    <label for="username">Username</label>
+                    <!-- Required admin username input. -->
+                    <input type="text" id="username" name="username" required placeholder="Enter username">
+                </div>
+                <!-- Password field group. -->
+                <div class="form-group">
+                    <!-- Label is linked to the password input for accessibility. -->
+                    <label for="password">Password</label>
+                    <!-- Required password input; type=password hides typed characters. -->
+                    <input type="password" id="password" name="password" required placeholder="Enter password">
+                </div>
+                <!-- Submit button spans the full card width for a clear primary action. -->
+                <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">
+                    Sign In
+                </button>
+            </form>
+        
+        </div>
+    </div>
+
+    <!-- Admin Dashboard: hidden by default and revealed after a successful login. -->
+    <div class="admin-dashboard" id="admin-dashboard" style="display: none;">
+        <!-- Sidebar: persistent admin navigation for switching dashboard sections. -->
+        <aside class="admin-sidebar">
+            <!-- Sidebar header links back to the public home page. -->
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">
+                    <!-- Small brand icon used in the sidebar logo. -->
+                    <span class="logo-icon">🔍</span>
+                    <!-- Text version of the product name. -->
+                    <span class="logo-text">FoundIt</span>
+                </a>
+            </div>
+            <!-- Section navigation; admin.js reads data-section to show the matching panel. -->
+            <nav class="sidebar-nav">
+                <!-- Dashboard nav item starts active because the dashboard is the default view. -->
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <!-- Dashboard icon. -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <!-- Items nav item opens the item moderation table. -->
+                <a href="#" class="nav-item" data-section="items">
+                    <!-- Item/package icon. -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                    </svg>
+                    Items
+                    <!-- Badge is updated by admin.js with the number of pending items. -->
+                    <span class="nav-badge" id="pending-items-badge">0</span>
+                </a>
+                <!-- Claims nav item opens the claim review workflow. -->
+                <a href="#" class="nav-item" data-section="claims">
+                    <!-- Document icon used for claims. -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    Claims
+                    <!-- Badge is updated by admin.js with the number of pending claims. -->
+                    <span class="nav-badge" id="pending-claims-badge">0</span>
+                </a>
+            </nav>
+            <!-- Sidebar footer contains the session/logout action. -->
+            <div class="sidebar-footer">
+                <!-- Logout button is wired in admin.js to clear admin state and return to login. -->
+                <button class="btn btn-secondary" id="logout-btn" style="width: 100%;">
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content: contains each admin section that the sidebar can display. -->
+        <main class="admin-main">
+            <!-- Dashboard Section: default landing view after login. -->
+            <section class="admin-section active" id="section-dashboard">
+                <!-- Section heading and explanation. -->
+                <div class="section-header">
+                    <h1>Dashboard</h1>
+                    <p>Overview of your lost & found system</p>
+                </div>
+
+                <!-- Stats Grid: admin.js fills these cards with live counts from /api/admin/stats. -->
+                <div class="stats-grid">
+                    <!-- Total item count card. -->
+                    <div class="stat-card">
+                        <!-- Decorative icon for total items. -->
+                        <div class="stat-icon" style="background: rgba(13, 148, 136, 0.1); color: var(--color-primary);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            </svg>
+                        </div>
+                        <!-- Dynamic value and label for total item submissions. -->
+                        <div class="stat-content">
+                            <!-- admin.js updates this span with the total number of items. -->
+                            <span class="stat-value" id="stat-total">0</span>
+                            <span class="stat-label">Total Items</span>
+                        </div>
+                    </div>
+                    <!-- Pending review count card. -->
+                    <div class="stat-card">
+                        <!-- Clock icon represents items waiting for review. -->
+                        <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--color-accent);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <!-- Dynamic value and label for pending review items. -->
+                        <div class="stat-content">
+                            <!-- admin.js updates this span with pending item count. -->
+                            <span class="stat-value" id="stat-pending">0</span>
+                            <span class="stat-label">Pending Review</span>
+                        </div>
+                    </div>
+                    <!-- Approved item count card. -->
+                    <div class="stat-card">
+                        <!-- Check icon represents approved/public items. -->
+                        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--color-success);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                        </div>
+                        <!-- Dynamic value and label for approved items. -->
+                        <div class="stat-content">
+                            <!-- admin.js updates this span with approved item count. -->
+                            <span class="stat-value" id="stat-approved">0</span>
+                            <span class="stat-label">Approved Items</span>
+                        </div>
+                    </div>
+                    <!-- Pending claims count card. -->
+                    <div class="stat-card">
+                        <!-- Document icon represents submitted claims. -->
+                        <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: var(--color-info);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <!-- Dynamic value and label for pending item claims. -->
+                        <div class="stat-content">
+                            <!-- admin.js updates this span with pending claim count. -->
+                            <span class="stat-value" id="stat-claims">0</span>
+                            <span class="stat-label">Pending Claims</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Grid: two summary panels for recent activity. -->
+                <div class="dashboard-grid">
+                    <!-- Recent submissions panel. -->
+                    <div class="dashboard-card">
+                        <!-- Card header includes title and shortcut to the full items section. -->
+                        <div class="card-header">
+                            <h2>Recent Submissions</h2>
+                            <!-- data-section lets admin.js navigate without a full page reload. -->
+                            <a href="#" class="view-all" data-section="items">View All</a>
+                        </div>
+                        <!-- admin.js injects recent item submission cards into this container. -->
+                        <div class="card-content" id="recent-submissions">
+                            <!-- Loading spinner shown until data arrives. -->
+                            <div class="loading-state">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Recent claims panel. -->
+                    <div class="dashboard-card">
+                        <!-- Card header includes title and shortcut to the full claims section. -->
+                        <div class="card-header">
+                            <h2>Recent Claims</h2>
+                            <!-- data-section lets admin.js navigate to claims. -->
+                            <a href="#" class="view-all" data-section="claims">View All</a>
+                        </div>
+                        <!-- admin.js injects recent claim cards into this container. -->
+                        <div class="card-content" id="recent-claims">
+                            <!-- Loading spinner shown until claim data arrives. -->
+                            <div class="loading-state">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Items Section: admin moderation workflow for found item submissions. -->
+            <section class="admin-section" id="section-items">
+                <!-- Section heading and explanation. -->
+                <div class="section-header">
+                    <h1>Manage Items</h1>
+                    <p>Review, approve, or reject found item submissions</p>
+                </div>
+
+                <!-- Filter bar lets admins switch item table status views. -->
+                <div class="filters-bar">
+                    <!-- Status tabs are wired by admin.js via their data-status values. -->
+                    <div class="status-tabs">
+                        <!-- Shows every item regardless of status. -->
+                        <button class="tab-btn active" data-status="all">All</button>
+                        <!-- Shows newly submitted items waiting for review. -->
+                        <button class="tab-btn" data-status="pending">Pending</button>
+                        <!-- Shows approved/public items. -->
+                        <button class="tab-btn" data-status="approved">Approved</button>
+                        <!-- Shows items that have been claimed. -->
+                        <button class="tab-btn" data-status="claimed">Claimed</button>
+                        <!-- Shows rejected submissions. -->
+                        <button class="tab-btn" data-status="rejected">Rejected</button>
+                    </div>
+                </div>
+
+                <!-- Table wrapper allows horizontal scrolling on small screens. -->
+                <div class="items-table-container">
+                    <!-- Admin item table populated dynamically by admin.js. -->
+                    <table class="admin-table" id="items-table">
+                        <!-- Static table headings define the item moderation columns. -->
+                        <thead>
+                            <tr>
+                                <th>Photo</th>
+                                <th>Item</th>
+                                <th>Category</th>
+                                <th>Location</th>
+                                <th>Found By</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <!-- Table body is empty in HTML because admin.js renders rows from API data. -->
+                        <tbody id="items-table-body">
+                            <!-- Items loaded here -->
+                        </tbody>
+                    </table>
+                    <!-- Empty state shown by admin.js when the selected filter has no rows. -->
+                    <div class="empty-state" id="no-items" style="display: none;">
+                        <div class="empty-icon">📦</div>
+                        <h3>No items found</h3>
+                        <p>There are no items matching your filter.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Claims Section: admin workflow for reviewing ownership claims. -->
+            <section class="admin-section" id="section-claims">
+                <!-- Section heading and explanation. -->
+                <div class="section-header">
+                    <h1>Manage Claims</h1>
+                    <p>Review and process item claims from students</p>
+                </div>
+
+                <!-- admin.js renders claim cards into this list. -->
+                <div class="claims-list" id="claims-list">
+                    <!-- Claims loaded here -->
+                </div>
+                <!-- Empty state shown when there are no submitted claims. -->
+                <div class="empty-state" id="no-claims" style="display: none;">
+                    <div class="empty-icon">📋</div>
+                    <h3>No claims yet</h3>
+                    <p>When students submit claims, they'll appear here.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Item Detail Modal: reusable overlay for reviewing one item in depth. -->
+    <div class="modal" id="item-detail-modal">
+        <!-- Backdrop darkens the page and is used by admin.js as a close target. -->
+        <div class="modal-backdrop"></div>
+        <!-- Modal content wrapper. -->
+        <div class="modal-content">
+            <!-- Close button for the item detail modal. -->
+            <button class="modal-close" id="item-detail-close">×</button>
+            <!-- admin.js injects selected item details and actions here. -->
+            <div class="modal-body" id="item-detail-body">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container: admin.js appends temporary success/error messages here. -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Loads all admin behavior: login, API calls, navigation, moderation, claims, and modals. -->
+    <script src="admin.js"></script>
+</body>
+</html>
+

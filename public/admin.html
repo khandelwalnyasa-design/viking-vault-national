@@ -1,0 +1,335 @@
+<!-- HTML5 document for the production admin panel served from /public. -->
+<!DOCTYPE html>
+<!-- Root element identifies the default language for assistive technology. -->
+<html lang="en">
+<head>
+    <!-- Character encoding supports symbols, punctuation, and multilingual text. -->
+    <meta charset="UTF-8">
+    <!-- Responsive viewport keeps the admin panel usable on smaller screens. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Browser tab title for the Viking Vault admin experience. -->
+    <title>Admin Panel - Viking Vault | South Brunswick High School</title>
+    <!-- Preconnect hints improve font loading performance. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Required cross-origin font preconnect. -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Site font families shared with the public-facing website. -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Global styles shared across public and admin pages. -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Admin-specific styles for dashboard, tables, forms, and modals. -->
+    <link rel="stylesheet" href="admin.css">
+    <!-- Chart.js powers any admin chart visualizations. -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<!-- admin-body activates admin-specific page styling. -->
+<body class="admin-body">
+    <!-- Login Screen: visible until admin.js validates the admin credentials. -->
+    <div class="login-screen" id="login-screen">
+        <!-- Login card groups logo, explanatory copy, and credential fields. -->
+        <div class="login-card">
+            <!-- Login header gives the user context before signing in. -->
+            <div class="login-header">
+                <!-- School logo reinforces that this is the SBHS admin panel. -->
+                <img src="/images/sbhs.jpeg" alt="SBHS Logo" class="login-logo">
+                <h1>Viking Vault Admin</h1>
+                <p>South Brunswick High School Lost & Found Management</p>
+            </div>
+            <!-- Login form is handled by public/admin.js and posts to /api/admin/login. -->
+            <form id="login-form">
+                <!-- Username input for admin credentials. -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="Enter username">
+                </div>
+                <!-- Password input is hidden for privacy. -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter password">
+                </div>
+                <!-- Primary sign-in action; admin.js disables it while submitting. -->
+                <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard: hidden by default, shown after successful authentication. -->
+    <div class="admin-dashboard" id="admin-dashboard" style="display: none;">
+        <!-- Sidebar navigation controls which admin section is visible. -->
+        <aside class="admin-sidebar">
+            <!-- Branding link returns admins to the public homepage. -->
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">
+                    <img src="/images/sbhs.jpeg" alt="SBHS Logo" class="logo-image">
+                    <span class="logo-text">Viking Vault</span>
+                </a>
+            </div>
+            <!-- data-section attributes connect each link to its matching admin section. -->
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item" data-section="items">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                    </svg>
+                    Items
+                    <span class="nav-badge" id="pending-items-badge">0</span>
+                </a>
+                <a href="#" class="nav-item" data-section="claims">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    Claims
+                    <span class="nav-badge" id="pending-claims-badge">0</span>
+                </a>
+                <!-- Lost items section helps admins match lost reports to found items. -->
+                <a href="#" class="nav-item" data-section="lost-items">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    Lost Items
+                    <span class="nav-badge" id="active-lost-items-badge">0</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn btn-secondary" id="logout-btn" style="width: 100%;">
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section class="admin-section active" id="section-dashboard">
+                <div class="section-header">
+                    <h1>Dashboard</h1>
+                    <p>Overview of your lost & found system</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(13, 148, 136, 0.1); color: var(--color-primary);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="stat-total">0</span>
+                            <span class="stat-label">Total Items</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--color-accent);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="stat-pending">0</span>
+                            <span class="stat-label">Pending Review</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--color-success);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="stat-approved">0</span>
+                            <span class="stat-label">Approved Items</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: var(--color-info);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="stat-claims">0</span>
+                            <span class="stat-label">Pending Claims</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card chart-card">
+                        <div class="card-header">
+                            <h2>Items by Category</h2>
+                        </div>
+                        <div class="card-content">
+                            <canvas id="admin-category-chart" aria-label="Chart showing items by category"></canvas>
+                        </div>
+                    </div>
+                    <div class="dashboard-card chart-card">
+                        <div class="card-header">
+                            <h2>Items Over Time</h2>
+                        </div>
+                        <div class="card-content">
+                            <canvas id="admin-timeline-chart" aria-label="Chart showing items found over time"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h2>Recent Submissions</h2>
+                            <a href="#" class="view-all" data-section="items">View All</a>
+                        </div>
+                        <div class="card-content" id="recent-submissions">
+                            <div class="loading-state">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h2>Recent Claims</h2>
+                            <a href="#" class="view-all" data-section="claims">View All</a>
+                        </div>
+                        <div class="card-content" id="recent-claims">
+                            <div class="loading-state">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Items Section -->
+            <section class="admin-section" id="section-items">
+                <div class="section-header">
+                    <h1>Manage Items</h1>
+                    <p>Review, approve, or reject found item submissions</p>
+                </div>
+
+                <div class="filters-bar">
+                    <div class="status-tabs">
+                        <button class="tab-btn active" data-status="all">All</button>
+                        <button class="tab-btn" data-status="pending">Pending</button>
+                        <button class="tab-btn" data-status="approved">Approved</button>
+                        <button class="tab-btn" data-status="claimed">Claimed</button>
+                        <button class="tab-btn" data-status="rejected">Rejected</button>
+                    </div>
+                </div>
+
+                <div class="items-table-container">
+                    <table class="admin-table" id="items-table">
+                        <thead>
+                            <tr>
+                                <th>Photo</th>
+                                <th>Item</th>
+                                <th>Category</th>
+                                <th>Location</th>
+                                <th>Found By</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="items-table-body">
+                            <!-- Items loaded here -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="no-items" style="display: none;">
+                        <div class="empty-icon">📦</div>
+                        <h3>No items found</h3>
+                        <p>There are no items matching your filter.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Claims Section -->
+            <section class="admin-section" id="section-claims">
+                <div class="section-header">
+                    <h1>Manage Claims</h1>
+                    <p>Review and process item claims from students</p>
+                </div>
+
+                <div class="claims-list" id="claims-list">
+                    <!-- Claims loaded here -->
+                </div>
+                <div class="empty-state" id="no-claims" style="display: none;">
+                    <div class="empty-icon">📋</div>
+                    <h3>No claims yet</h3>
+                    <p>When students submit claims, they'll appear here.</p>
+                </div>
+            </section>
+
+            <!-- Lost Items Section -->
+            <section class="admin-section" id="section-lost-items">
+                <div class="section-header">
+                    <h1>Manage Lost Items</h1>
+                    <p>View and match lost item reports with found items</p>
+                </div>
+
+                <div class="lost-items-list" id="lost-items-list">
+                    <!-- Lost items loaded here -->
+                </div>
+                <div class="empty-state" id="no-lost-items" style="display: none;">
+                    <div class="empty-icon">🔍</div>
+                    <h3>No lost items reported</h3>
+                    <p>When students report lost items, they'll appear here.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Item Detail Modal -->
+    <div class="modal" id="item-detail-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="item-detail-close">×</button>
+            <div class="modal-body" id="item-detail-body">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Match Item Modal -->
+    <div class="modal" id="match-item-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content" style="max-width: 800px;">
+            <button class="modal-close" id="match-modal-close">×</button>
+            <div class="modal-body">
+                <h2>Match Lost Item with Found Item</h2>
+                <div id="lost-item-info" class="lost-item-match-info"></div>
+                <div class="match-search">
+                    <input type="text" id="match-search-input" placeholder="Search found items..." class="search-box-input">
+                </div>
+                <div class="match-items-list" id="match-items-list">
+                    <!-- Found items will be loaded here -->
+                </div>
+                <div class="empty-state" id="no-match-items" style="display: none;">
+                    <p>No found items available to match.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
+

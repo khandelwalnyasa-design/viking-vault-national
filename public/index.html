@@ -1,0 +1,1008 @@
+<!--
+    Viking Vault public website.
+    This page contains every student-facing section: home, browsing found items,
+    reporting lost/found items, mission, statistics, heat map, modals, Viper AI,
+    language switching, and the shared footer.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viking Vault - South Brunswick High School Lost & Found</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" data-page="home">
+                <img src="/images/sbhs.jpeg" alt="SBHS Logo" class="logo-image"> 
+                <span class="logo-text">Viking Vault</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#" data-page="home" class="active" aria-label="Home page">Home</a></li>
+                <li><a href="#" data-page="browse" aria-label="Browse found items">Browse Items</a></li>
+                <li><a href="#" data-page="report" aria-label="Report a found item">Report Found</a></li>
+                <li><a href="#" data-page="lost" aria-label="Report a lost item">Report Lost</a></li>
+                <li><a href="#" data-page="mission" aria-label="Our mission">Our Mission</a></li>
+                <li><a href="#" data-page="stats" aria-label="View statistics">Stats</a></li>
+                <li><a href="#" data-page="heatmap" aria-label="View lost item heat map">Heat Map</a></li>
+                <li><a href="admin.html" class="admin-link" aria-label="Admin panel">Admin</a></li>
+            </ul>
+            <div class="language-switcher">
+                <label for="language-select" class="sr-only">Language</label>
+                <select id="language-select" aria-label="Select language">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="la">Latina</option>
+                </select>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation menu">
+            <ul>
+            <li><a href="#" data-page="home" aria-label="Home page">Home</a></li>
+            <li><a href="#" data-page="browse" aria-label="Browse found items">Browse Items</a></li>
+            <li><a href="#" data-page="report" aria-label="Report a found item">Report Found</a></li>
+            <li><a href="#" data-page="lost" aria-label="Report a lost item">Report Lost</a></li>
+            <li><a href="#" data-page="mission" aria-label="Our mission">Our Mission</a></li>
+            <li><a href="#" data-page="stats" aria-label="View statistics">Stats</a></li>
+            <li><a href="#" data-page="heatmap" aria-label="View lost item heat map">Heat Map</a></li>
+            <li><a href="admin.html" aria-label="Admin panel">Admin Panel</a></li>
+        </ul>
+    </div>
+
+    <!-- Home Page -->
+    <main id="home" class="page active">
+        <section class="hero">
+            <div class="hero-bg">
+                <div class="hero-shape shape-1"></div>
+                <div class="hero-shape shape-2"></div>
+                <div class="hero-shape shape-3"></div>
+                <div class="hero-shape shape-4"></div>
+                <div class="hero-shape shape-5"></div>
+
+            </div>
+            <div class="hero-content">
+                <span class="hero-badge">South Brunswick High School</span>
+                <h1>Lost Something?<br><span class="gradient-text">Viking Vault Will Help!</span></h1>
+                <p>South Brunswick High School's official lost and found system. Report found items or search for your missing belongings. Let's reunite Vikings with their items!</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" data-page="browse">
+                        <span>Browse Found Items</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    <button class="btn btn-secondary" data-page="report">Report Found Item</button>
+                </div>
+            </div>
+            <div class="orbit-scene" aria-hidden="true">
+                <div class="orbit-track orbit-track-1"></div>
+                <div class="orbit-track orbit-track-2"></div>
+                <div class="orbit-track orbit-track-3"></div>
+                <div class="orbit-center">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </div>
+                <div class="orb orb-r1-a">📱</div>
+                <div class="orb orb-r1-b">🔑</div>
+                <div class="orb orb-r1-c">🎧</div>
+                <div class="orb orb-r2-a">🎒</div>
+                <div class="orb orb-r2-b">📚</div>
+                <div class="orb orb-r2-c">🧥</div>
+                <div class="orb orb-r2-d">👓</div>
+                <div class="orb orb-r3-a">💻</div>
+                <div class="orb orb-r3-b">⌚</div>
+                <div class="orb orb-r3-c">👜</div>
+                <div class="orb orb-r3-d">👟</div>
+                <div class="orb orb-r3-e">🧮</div>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <div class="container">
+                <span class="section-badge">Simple Process</span>
+                <h2>How It Works</h2>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">01</div>
+                        <svg class="step-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                        <h3>Report or Search</h3>
+                        <p>Found something around SBHS? Report it with a photo. Lost something? Browse our listings or use search.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">02</div>
+                        <svg class="step-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <h3>Admin Review</h3>
+                        <p>SBHS staff reviews submissions to ensure accuracy and prevent misuse of the system.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">03</div>
+                        <svg class="step-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <h3>Submit Claim</h3>
+                        <p>Found your item? Submit a claim with details proving ownership. We'll verify and connect you.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">04</div>
+                        <svg class="step-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <h3>Reunited!</h3>
+                        <p>Once verified, pick up your item from the SBHS main office. Happy reunion, Viking!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Powerful Features Showcase -->
+        <section class="features-showcase">
+            <div class="container">
+                <div class="features-header">
+                    <span class="section-badge">Powerful Features</span>
+                    <h2 class="features-title">Everything you need to <span class="gradient-text">reunite Vikings</span> with their belongings</h2>
+                </div>
+                <div class="features-centered">
+                    <p class="features-summary">Viking Vault makes it effortless to report, track, and recover lost items across South Brunswick High School. Browse current listings, submit a claim, or report something you found — all in just a few clicks.</p>
+                    <img src="/images/puzzle4.png" alt="Lost and Found Puzzle" class="features-puzzle-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- Student Reviews Section -->
+        <section class="reviews-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge">Student Testimonials</span>
+                    <h2>What Our Students Say</h2>
+                    <p class="section-subtitle">See how Viking Vault has helped students reunite with their belongings</p>
+                </div>
+                <div class="reviews-carousel-wrapper">
+                    <div class="reviews-carousel">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                                <div class="review-info">
+                                    <h4 class="review-name">Sarah Chen</h4>
+                                    <p class="review-grade">Class of 2025</p>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="review-text">"I lost my AirPods case during lunch and thought I'd never see it again. Two days later, I got an email that someone found it! Viking Vault made it so easy to get my stuff back. This website is a lifesaver!"</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                                <div class="review-info">
+                                    <h4 class="review-name">Marcus Rodriguez</h4>
+                                    <p class="review-grade">Class of 2024</p>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="review-text">"As a senior, I've lost track of how many things I've misplaced. Viking Vault's smart matching system found my lost calculator within hours. The email notifications are super helpful - no more checking the website constantly!"</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                                <div class="review-info">
+                                    <h4 class="review-name">Emily Park</h4>
+                                    <p class="review-grade">Class of 2026</p>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="review-text">"I was so stressed when I lost my favorite water bottle. I reported it as lost, and the next day someone had found it! The process was so simple and the admin was really helpful. Love this system!"</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                                <div class="review-info">
+                                    <h4 class="review-name">Jordan Kim</h4>
+                                    <p class="review-grade">Class of 2025</p>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="review-text">"The dark mode feature is awesome, and the website is so easy to use. I found my friend's lost jacket through Viking Vault. It's way better than the old lost and found system. Highly recommend!"</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                                <div class="review-info">
+                                    <h4 class="review-name">Alex Thompson</h4>
+                                    <p class="review-grade">Class of 2024</p>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="review-text">"I lost my keys right before a big game and was panicking. Someone found them and reported it on Viking Vault. Got them back the same day! This website saved me so much stress. Thank you!"</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                                <div class="review-info">
+                                    <h4 class="review-name">Maya Patel</h4>
+                                    <p class="review-grade">Class of 2026</p>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="review-text">"The interface is so clean and modern. I love how you can sort items by newest or oldest. Found my lost notebook in minutes! Viking Vault makes the whole lost and found process actually enjoyable."</p>
+                        </div>
+                        <!-- Duplicate reviews for seamless loop -->
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                                <div class="review-info">
+                                    <h4 class="review-name">Sarah Chen</h4>
+                                    <p class="review-grade">Class of 2025</p>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="review-text">"I lost my AirPods case during lunch and thought I'd never see it again. Two days later, I got an email that someone found it! Viking Vault made it so easy to get my stuff back. This website is a lifesaver!"</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                                <div class="review-info">
+                                    <h4 class="review-name">Marcus Rodriguez</h4>
+                                    <p class="review-grade">Class of 2024</p>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="review-text">"As a senior, I've lost track of how many things I've misplaced. Viking Vault's smart matching system found my lost calculator within hours. The email notifications are super helpful - no more checking the website constantly!"</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                                <div class="review-info">
+                                    <h4 class="review-name">Emily Park</h4>
+                                    <p class="review-grade">Class of 2026</p>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <p class="review-text">"I was so stressed when I lost my favorite water bottle. I reported it as lost, and the next day someone had found it! The process was so simple and the admin was really helpful. Love this system!"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="recent-items">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <span class="section-badge">Latest Finds</span>
+                        <h2>Recently Found Items</h2>
+                    </div>
+                    <button class="btn btn-outline" data-page="browse">View All Items</button>
+                </div>
+                <div class="items-grid" id="recent-items-grid">
+                    <!-- Items will be loaded here -->
+                </div>
+                <div class="empty-state" id="no-recent-items" style="display: none;">
+                    <svg class="empty-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                        <line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
+                    <h3>No items yet</h3>
+                    <p>Be the first to report a found item!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-card">
+                    <div class="cta-content">
+                        <h2>Found Something?</h2>
+                        <p>Help a fellow Viking by reporting the item you found. It only takes a minute to make someone's day!</p>
+                        <button class="btn btn-primary" data-page="report">Report Found Item</button>
+                    </div>
+                    <div class="cta-visual">
+                        <svg class="cta-icon" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Browse Items Page -->
+    <main id="browse" class="page">
+        <section class="page-header">
+            <div class="container">
+                <span class="section-badge">Search & Browse</span>
+                <h1>Found Items</h1>
+                <p>Browse all reported found items or use the search to find something specific.</p>
+            </div>
+        </section>
+
+        <section class="browse-section">
+            <div class="container">
+                <div class="filters-bar">
+                    <div class="search-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        <input type="text" id="search-input" placeholder="Search items..." aria-label="Search for items">
+                    </div>
+                    <div class="filters-row">
+                        <div class="category-filters">
+                            <button class="filter-btn active" data-category="all" aria-label="Filter: All categories">All</button>
+                            <button class="filter-btn" data-category="electronics" aria-label="Filter: Electronics">Electronics</button>
+                            <button class="filter-btn" data-category="clothing" aria-label="Filter: Clothing">Clothing</button>
+                            <button class="filter-btn" data-category="accessories" aria-label="Filter: Accessories">Accessories</button>
+                            <button class="filter-btn" data-category="books" aria-label="Filter: Books">Books</button>
+                            <button class="filter-btn" data-category="sports" aria-label="Filter: Sports">Sports</button>
+                            <button class="filter-btn" data-category="other" aria-label="Filter: Other">Other</button>
+                        </div>
+                        <div class="sort-controls">
+                            <label for="sort-select" class="sort-label">Sort by:</label>
+                            <select id="sort-select" class="sort-select" aria-label="Sort items">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="items-grid" id="browse-items-grid">
+                    <!-- Items will be loaded here -->
+                </div>
+
+                <div class="empty-state" id="no-items-found" style="display: none;">
+                    <svg class="empty-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <h3>No items found</h3>
+                    <p>Try adjusting your search or filters.</p>
+                </div>
+
+                <div class="loading-state" id="loading-items">
+                    <div class="spinner"></div>
+                    <p>Loading items...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Report Lost Item Page -->
+    <main id="lost" class="page">
+        <section class="page-header">
+            <div class="container">
+                <span class="section-badge">Need Help Finding Something?</span>
+                <h1>Report a Lost Item</h1>
+                <p>Fill out the form below to report an item you've lost. If it's found, we'll contact you immediately!</p>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <div class="container">
+                <form id="lost-form" class="item-form">
+                    <div class="form-grid">
+                        <div class="form-left">
+                            <div class="form-group">
+                                <label for="lost-item-title">Item Name *</label>
+                                <input type="text" id="lost-item-title" name="title" required placeholder="e.g., Blue Nike Backpack" aria-required="true">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lost-item-category">Category *</label>
+                                <select id="lost-item-category" name="category" required aria-required="true">
+                                    <option value="">Select a category</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="clothing">Clothing</option>
+                                    <option value="accessories">Accessories</option>
+                                    <option value="books">Books & Supplies</option>
+                                    <option value="sports">Sports Equipment</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="lost-item-location">Location Lost *</label>
+                                    <input type="text" id="lost-item-location" name="location_lost" required placeholder="e.g., Library 2nd Floor" aria-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lost-item-date">Date Lost *</label>
+                                    <input type="date" id="lost-item-date" name="date_lost" required aria-required="true">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lost-item-description">Description</label>
+                                <textarea id="lost-item-description" name="description" rows="4" placeholder="Describe the item in detail (color, brand, distinguishing features, contents, etc.)" aria-label="Item description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-right">
+                            <div class="form-divider">
+                                <span>Your Contact Info</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="owner-name">Your Name *</label>
+                                <input type="text" id="owner-name" name="owner_name" required placeholder="Your full name" aria-required="true">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="owner-email">Email *</label>
+                                <input type="email" id="owner-email" name="owner_email" required placeholder="your.email@school.edu" aria-required="true">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="owner-phone">Phone (Optional)</label>
+                                <input type="tel" id="owner-phone" name="owner_phone" placeholder="(555) 123-4567" aria-label="Phone number">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large" aria-label="Submit lost item report">
+                            <span>Submit Report</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Our Mission Page -->
+    <main id="mission" class="page">
+        <section class="page-header">
+            <div class="container">
+                <span class="section-badge">About Viking Vault</span>
+                <h1>Our Mission</h1>
+                <p>Helping the South Brunswick High School community reunite with lost belongings.</p>
+            </div>
+        </section>
+
+        <section class="mission-section">
+            <div class="container">
+                <div class="mission-content">
+                    <div class="mission-card">
+                        <svg class="mission-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <h2>Our Purpose</h2>
+                        <p>Viking Vault was created to help students and staff at South Brunswick High School quickly and easily reunite with their lost belongings. We believe that every lost item deserves to find its way home.</p>
+                    </div>
+
+
+                    <div class="mission-card">
+                        <svg class="mission-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        <h2>Fast & Easy</h2>
+                        <p>With just a few clicks, you can report a found item or search for something you've lost. Our streamlined process makes it simple for everyone to participate.</p>
+                    </div>
+
+                    <div class="mission-card">
+                        <svg class="mission-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        <h2>Safe & Secure</h2>
+                        <p>All submissions are reviewed by SBHS staff before being made public. We verify claims to ensure items are returned to their rightful owners.</p>
+                    </div>
+                </div>
+
+                <div class="mission-values">
+                    <h2>Our Values</h2>
+                    <div class="values-image-wrap">
+                        <img src="/images/puzzlepiece2.png" alt="Puzzle Piece" class="values-puzzle-img">
+                    </div>
+                </div>
+
+                <div class="mission-cta">
+                    <h2>Ready to Help?</h2>
+                    <p>Join us in making South Brunswick High School a place where lost items always find their way home.</p>
+                    <div class="mission-buttons">
+                        <button class="btn btn-primary" data-page="report">Report a Found Item</button>
+                        <button class="btn btn-secondary" data-page="browse">Browse Found Items</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Statistics Page -->
+    <main id="stats" class="page">
+        <section class="page-header">
+            <div class="container">
+                <span class="section-badge">Viking Vault Statistics</span>
+                <h1>Lost & Found Statistics</h1>
+                <p>See how our community is helping reunite Vikings with their belongings.</p>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid" id="stats-grid">
+                    <div class="stat-card-large">
+                        <svg class="stat-icon-large" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Main box -->
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                            <!-- Items inside -->
+                            <circle cx="9" cy="10" r="1.5" fill="currentColor" opacity="0.6"/>
+                            <circle cx="12" cy="10" r="1.5" fill="currentColor" opacity="0.6"/>
+                            <circle cx="15" cy="10" r="1.5" fill="currentColor" opacity="0.6"/>
+                            <rect x="8" y="13" width="8" height="2" rx="1" fill="currentColor" opacity="0.4"/>
+                        </svg>
+                        <div class="stat-value-large" id="stat-total-found">-</div>
+                        <div class="stat-label-large">Items Found</div>
+                    </div>
+                    <div class="stat-card-large">
+                        <svg class="stat-icon-large" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Circle -->
+                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <!-- Checkmark -->
+                            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div class="stat-value-large" id="stat-claimed">-</div>
+                        <div class="stat-label-large">Items Claimed</div>
+                    </div>
+                    <div class="stat-card-large">
+                        <svg class="stat-icon-large" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Chart background -->
+                            <rect x="2" y="4" width="20" height="16" rx="2" fill="currentColor" opacity="0.08"/>
+                            <!-- Base line -->
+                            <line x1="4" y1="18" x2="20" y2="18" stroke="currentColor" opacity="0.3" stroke-width="1.5"/>
+                            <!-- Upward trending line -->
+                            <polyline points="4,18 8,14 12,10 16,6 20,2" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <!-- Upward arrow at the top -->
+                            <path d="M18 4l2-2 2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            <line x1="20" y1="2" x2="20" y2="0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                        <div class="stat-value-large" id="stat-success-rate">-</div>
+                        <div class="stat-label-large">Success Rate</div>
+                    </div>
+                    <div class="stat-card-large">
+                        <svg class="stat-icon-large" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Calendar base -->
+                            <rect x="3" y="4" width="18" height="18" rx="2" fill="currentColor" opacity="0.08"/>
+                            <!-- Calendar rings -->
+                            <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2"/>
+                            <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2"/>
+                            <!-- Header separator -->
+                            <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
+                            <!-- Calendar grid lines -->
+                            <line x1="8" y1="10" x2="8" y2="22" stroke="currentColor" opacity="0.2" stroke-width="1"/>
+                            <line x1="13" y1="10" x2="13" y2="22" stroke="currentColor" opacity="0.2" stroke-width="1"/>
+                            <line x1="18" y1="10" x2="18" y2="22" stroke="currentColor" opacity="0.2" stroke-width="1"/>
+                            <line x1="3" y1="14" x2="21" y2="14" stroke="currentColor" opacity="0.2" stroke-width="1"/>
+                            <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" opacity="0.2" stroke-width="1"/>
+                        </svg>
+                        <div class="stat-value-large" id="stat-this-month">-</div>
+                        <div class="stat-label-large">Found This Month</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h2>Items by Category</h2>
+                    <canvas id="category-chart" aria-label="Chart showing items found by category"></canvas>
+                </div>
+
+                <div class="recovery-insights">
+                    <div class="section-header">
+                        <div>
+                            <span class="section-badge">Recovery Insights</span>
+                            <h2>Smarter Lost & Found Patterns</h2>
+                            <p>Use these trends to understand what gets lost, where it happens, and how often items are recovered.</p>
+                        </div>
+                    </div>
+
+                    <div class="insights-grid">
+                        <article class="insight-card">
+                            <span class="insight-label">Most commonly lost item</span>
+                            <strong id="insight-common-item">-</strong>
+                            <p id="insight-common-item-detail">Waiting for item data...</p>
+                        </article>
+                        <article class="insight-card">
+                            <span class="insight-label">Most common location</span>
+                            <strong id="insight-common-location">-</strong>
+                            <p id="insight-common-location-detail">Waiting for location data...</p>
+                        </article>
+                    </div>
+
+                    <div class="insight-charts">
+                        <div class="chart-container">
+                            <h2>Recovery Rate by Category</h2>
+                            <canvas id="recovery-rate-chart" aria-label="Chart showing recovery rate by category"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h2>Monthly Trends</h2>
+                            <canvas id="monthly-trends-chart" aria-label="Chart showing monthly lost and found trends"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Lost Item Heat Map Page -->
+    <main id="heatmap" class="page">
+        <section class="page-header">
+            <div class="container">
+                <span class="section-badge">Lost Item Heat Map</span>
+                <h1>Where Items Go Missing</h1>
+                <p>Explore common lost-and-found hotspots around school. Larger, warmer spots show areas with more reports.</p>
+            </div>
+        </section>
+
+        <section class="heatmap-section">
+            <div class="container">
+                <div class="heatmap-layout">
+                    <div class="heatmap-card">
+                        <div class="heatmap-map" id="heatmap-map">
+                            <img src="/images/heatmap.jpg" alt="School floor map heat map background" class="heatmap-image">
+                            <div class="heatmap-hotspots" id="heatmap-hotspots" aria-label="Lost item location hotspots"></div>
+                        </div>
+                        <div class="heatmap-legend" aria-label="Heat map intensity legend">
+                            <span><i class="legend-dot low"></i>Low reports</span>
+                            <span><i class="legend-dot medium"></i>Medium reports</span>
+                            <span><i class="legend-dot high"></i>High reports</span>
+                        </div>
+                    </div>
+
+                    <aside class="heatmap-details" id="heatmap-details">
+                        <span class="section-badge">Location Details</span>
+                        <h2>Select a hotspot</h2>
+                        <p>Hover or tap a heat spot to see the location name, total reports, and most common item types there.</p>
+                        <div class="heatmap-detail-list" id="heatmap-detail-list"></div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Report Found Item Page -->
+    <main id="report" class="page">
+        <section class="page-header">
+            <div class="container">
+                <span class="section-badge">Help Others</span>
+                <h1>Report a Found Item</h1>
+                <p>Fill out the form below to report an item you've found. Our staff will review and approve it.</p>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <div class="container">
+                <form id="report-form" class="item-form">
+                    <div class="form-grid">
+                        <div class="form-left">
+                            <div class="form-group">
+                                <label for="item-title">Item Name *</label>
+                                <input type="text" id="item-title" name="title" required placeholder="e.g., Blue Nike Backpack" aria-required="true" aria-label="Item name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="item-category">Category *</label>
+                                <select id="item-category" name="category" required aria-required="true" aria-label="Item category">
+                                    <option value="">Select a category</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="clothing">Clothing</option>
+                                    <option value="accessories">Accessories</option>
+                                    <option value="books">Books & Supplies</option>
+                                    <option value="sports">Sports Equipment</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="item-location">Location Found *</label>
+                                    <input type="text" id="item-location" name="location" required placeholder="e.g., Library 2nd Floor">
+                                </div>
+                                <div class="form-group">
+                                    <label for="item-date">Date Found *</label>
+                                    <input type="date" id="item-date" name="date_found" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="item-description">Description</label>
+                                <textarea id="item-description" name="description" rows="4" placeholder="Describe the item in detail (color, brand, distinguishing features, etc.)"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-right">
+                            <div class="form-group">
+                                <label>Photo (Optional)</label>
+                                <div class="photo-upload" id="photo-upload">
+                                    <input type="file" id="item-photo" name="photo" accept="image/*">
+                                    <div class="upload-placeholder" id="upload-placeholder">
+                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                                            <path d="m21 15-5-5L5 21"/>
+                                        </svg>
+                                        <p>Click or drag to upload</p>
+                                        <span>Max 5MB, JPG/PNG/GIF</span>
+                                    </div>
+                                    <div class="upload-preview" id="upload-preview" style="display: none;">
+                                        <img id="preview-image" src="" alt="Preview">
+                                        <button type="button" class="remove-photo" id="remove-photo">×</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-divider">
+                                <span>Your Contact Info</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="finder-name">Your Name *</label>
+                                <input type="text" id="finder-name" name="finder_name" required placeholder="Your full name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="finder-email">Email *</label>
+                                <input type="email" id="finder-email" name="finder_email" required placeholder="your.email@school.edu">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="finder-phone">Phone (Optional)</label>
+                                <input type="tel" id="finder-phone" name="finder_phone" placeholder="(555) 123-4567">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large" aria-label="Submit found item report">
+                            <span>Submit Report</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Item Detail Modal -->
+    <div class="modal" id="item-modal" role="dialog" aria-labelledby="item-modal-title" aria-modal="true">
+        <div class="modal-backdrop" aria-label="Close modal"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close" aria-label="Close modal">×</button>
+            <div class="modal-body" id="modal-body">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Claim Form Modal -->
+    <div class="modal" id="claim-modal" role="dialog" aria-labelledby="claim-modal-title" aria-modal="true">
+        <div class="modal-backdrop" aria-label="Close modal"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="claim-modal-close" aria-label="Close modal">×</button>
+            <div class="modal-body">
+                <h2>Claim This Item</h2>
+                <p class="claim-item-name" id="claim-item-name"></p>
+                <form id="claim-form">
+                    <input type="hidden" id="claim-item-id" name="item_id">
+                    
+                    <div class="form-group">
+                        <label for="claimant-name">Your Name *</label>
+                        <input type="text" id="claimant-name" name="claimant_name" required placeholder="Your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="claimant-email">Email *</label>
+                        <input type="email" id="claimant-email" name="claimant_email" required placeholder="your.email@school.edu">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="claimant-phone">Phone (Optional)</label>
+                        <input type="tel" id="claimant-phone" name="claimant_phone" placeholder="(555) 123-4567">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="claim-description">Prove It's Yours *</label>
+                        <textarea id="claim-description" name="description" rows="4" required placeholder="Describe specific details that prove this item belongs to you (e.g., contents, unique marks, where you last had it, etc.)"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="cancel-claim" aria-label="Cancel claim">Cancel</button>
+                        <button type="submit" class="btn btn-primary" aria-label="Submit claim">Submit Claim</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Viper AI Chat Assistant -->
+    <section class="viper-chat" id="viper-chat" aria-live="polite">
+        <button class="viper-toggle" id="viper-toggle" type="button" aria-label="Open Viper lost and found assistant">
+            <span class="viper-toggle-icon">V</span>
+            <span class="viper-toggle-text">Ask Viper</span>
+        </button>
+
+        <div class="viper-panel" id="viper-panel" role="dialog" aria-labelledby="viper-title" aria-modal="false">
+            <div class="viper-header">
+                <div>
+                    <span class="viper-kicker">AI Assistant</span>
+                    <h2 id="viper-title">Viper</h2>
+                    <p>Virtual Item Protection and Enhanced Recovery</p>
+                </div>
+                <button class="viper-close" id="viper-close" type="button" aria-label="Close Viper assistant">×</button>
+            </div>
+
+            <div class="viper-messages" id="viper-messages"></div>
+
+            <form class="viper-input-row" id="viper-form">
+                <input type="text" id="viper-input" autocomplete="off" placeholder="Type your answer..." aria-label="Message Viper">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/images/sbhs.jpeg" alt="SBHS Logo" class="footer-logo">
+                    <span class="logo-text">Viking Vault</span>
+                </div>
+                <p>South Brunswick High School's official lost and found system. Helping Vikings reunite with their belongings.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#" data-page="home">Home</a>
+                <a href="#" data-page="browse">Browse Items</a>
+                <a href="#" data-page="report">Report Found</a>
+                <a href="#" data-page="lost">Report Lost</a>
+                <a href="#" data-page="mission">Our Mission</a>
+                <a href="#" data-page="stats">Statistics</a>
+                <a href="admin.html">Admin</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Viking Vault - South Brunswick High School. Helping Vikings reunite with their belongings.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
