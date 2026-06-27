@@ -21,6 +21,13 @@ import {
     updateDoc,
     deleteDoc
 } from 'firebase/firestore';
+// Firebase Storage keeps uploaded item photos available after deploys/restarts.
+import {
+    getStorage,
+    ref as storageRef,
+    uploadBytes,
+    getDownloadURL
+} from 'firebase/storage';
 // Express provides the HTTP server and API routing.
 import express from 'express';
 // Multer processes uploaded found-item photos before saving them.
@@ -56,6 +63,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
+const firebaseStorage = getStorage(firebaseApp);
 
 // Email configuration is loaded from email.config.json when present.
 // If the config file is missing or disabled, the app still works without email.
@@ -319,19 +327,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Multer configuration
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadsDir);
-    },
-    filename: (req, file, cb) => {
-        const uniqueName = `${uuidv4()}${path.extname(file.originalname)}`;
-        cb(null, uniqueName);
-    }
-});
+// Multer keeps uploads in memory so the server can send them to Firebase Storage.
+const multerStorage = multer.memoryStorage();
 
 const upload = multer({
-    storage,
+    storage: multerStorage,
     limits: { fileSize: 5 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
         const allowedTypes = /jpeg|jpg|png|gif|webp/;
@@ -344,6 +344,38 @@ const upload = multer({
         }
     }
 });
+
+function savePhotoLocally(file) {
+    const uniqueName = `${uuidv4()}${path.extname(file.originalname)}`;
+    fs.writeFileSync(path.join(uploadsDir, uniqueName), file.buffer);
+    return `/uploads/${uniqueName}`;
+}
+
+async function uploadPhotoToFirebaseStorage(file) {
+    const extension = path.extname(file.originalname).toLowerCase() || '.jpg';
+    const uniqueName = `${uuidv4()}${extension}`;
+    const photoRef = storageRef(firebaseStorage, `item-photos/${uniqueName}`);
+
+    await uploadBytes(photoRef, file.buffer, {
+        contentType: file.mimetype,
+        customMetadata: {
+            originalName: file.originalname
+        }
+    });
+
+    return getDownloadURL(photoRef);
+}
+
+async function saveUploadedPhoto(file) {
+    if (!file) return null;
+
+    try {
+        return await uploadPhotoToFirebaseStorage(file);
+    } catch (error) {
+        console.warn('⚠️  Firebase Storage upload failed; saved photo locally:', error.message);
+        return savePhotoLocally(file);
+    }
+}
 
 // ========================================
 // Public API Routes
@@ -427,6 +459,7 @@ app.post('/api/items', upload.single('photo'), async (req, res) => {
         }
 
         const id = uuidv4();
+        const photo = await saveUploadedPhoto(req.file);
         const newItem = {
             id,
             title,
@@ -437,7 +470,7 @@ app.post('/api/items', upload.single('photo'), async (req, res) => {
             finder_name,
             finder_email,
             finder_phone: finder_phone || '',
-            photo: req.file ? `/uploads/${req.file.filename}` : null,
+            photo,
             status: 'pending',
             created_at: new Date().toISOString(),
             history: [{
