@@ -5231,7 +5231,7 @@ body,
 }
 
 html[data-language="en"] .nav-links a {
-    font-size: var(--font-size-base);
+    font-size: clamp(0.74rem, 0.78vw, 0.94rem);
     padding: var(--spacing-sm) var(--spacing-md);
 }
 
